@@ -64,10 +64,10 @@ IMAGES = $(PROJECT_NAME)
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= xpkg.upbound.io/crossplane-contrib index.docker.io/crossplanecontrib
+XPKG_REG_ORGS ?= censysops/provider-pagerduty index.docker.io/censys
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
-XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/crossplane-contrib
+XPKG_REG_ORGS_NO_PROMOTE ?= censysops/provider-pagerduty
 XPKGS = $(PROJECT_NAME)
 -include build/makelib/xpkg.mk
 

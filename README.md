@@ -58,3 +58,8 @@ make build
 
 For filing bugs, suggesting improvements, or requesting new features, please
 open an [issue](https://github.com/crossplane-contrib/provider-pagerduty/issues).
+
+
+### Censys
+1: added Schedule reference to the config/escalation/config.go so we can dynamically get the schedule ID when creating a policy
+2: adjust the Makefile to point to our Upbound Marketplace and Dockerhub registries

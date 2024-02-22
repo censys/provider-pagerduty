@@ -13,6 +13,11 @@ func Configure(p *config.Provider) {
 				RefFieldName:      "TeamRefs",
 				SelectorFieldName: "TeamSelector",
 			},
+			"rule.target.id": {
+				Type:              "github.com/crossplane-contrib/provider-pagerduty/apis/schedule/v1alpha1.Schedule",
+				RefFieldName:      "ScheduleRefs",
+				SelectorFieldName: "ScheduleSelector",
+			},
 		}
 	})
 }
