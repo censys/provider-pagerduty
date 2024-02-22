@@ -81,7 +81,9 @@ spec:
     rule:
     - escalationDelayInMinutes: 10
       target:
-      - id: ${pagerduty_user.example.id}
+      - scheduleSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
         type: user
 
 ---

@@ -63,3 +63,14 @@ open an [issue](https://github.com/crossplane-contrib/provider-pagerduty/issues)
 ### Censys
 1: added Schedule reference to the config/escalation/config.go so we can dynamically get the schedule ID when creating a policy
 2: adjust the Makefile to point to our Upbound Marketplace and Dockerhub registries
+3:
+  a: Get submodules
+    `make submodules`
+  b: Generate
+    `make generate`
+  c: build
+    `make build`
+  d: Upbound login - Must have the upbound cli
+    `up login`
+  e: Update the version and publish
+    `VERSION=v0.6.2 PLATFORMS=linux_amd64 make publish`

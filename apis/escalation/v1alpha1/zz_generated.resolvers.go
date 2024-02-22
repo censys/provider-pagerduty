@@ -7,7 +7,8 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-pagerduty/apis/team/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-pagerduty/apis/schedule/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-pagerduty/apis/team/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -17,17 +18,38 @@ import (
 func (mg *Policy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
+	var rsp reference.ResolutionResponse
 	var mrsp reference.MultiResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Rule); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Rule[i3].Target); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Rule[i3].Target[i4].ID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.Rule[i3].Target[i4].ScheduleRefs,
+				Selector:     mg.Spec.ForProvider.Rule[i3].Target[i4].ScheduleSelector,
+				To: reference.To{
+					List:    &v1alpha1.ScheduleList{},
+					Managed: &v1alpha1.Schedule{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Rule[i3].Target[i4].ID")
+			}
+			mg.Spec.ForProvider.Rule[i3].Target[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Rule[i3].Target[i4].ScheduleRefs = rsp.ResolvedReference
+
+		}
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Teams),
 		Extract:       reference.ExternalName(),
 		References:    mg.Spec.ForProvider.TeamRefs,
 		Selector:      mg.Spec.ForProvider.TeamSelector,
 		To: reference.To{
-			List:    &v1alpha1.TeamList{},
-			Managed: &v1alpha1.Team{},
+			List:    &v1alpha11.TeamList{},
+			Managed: &v1alpha11.Team{},
 		},
 	})
 	if err != nil {

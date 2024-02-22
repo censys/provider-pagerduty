@@ -114,9 +114,6 @@ type RuleParameters struct {
 
 type TargetInitParameters struct {
 
-	// A target ID
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
 	// Can be user_reference or schedule_reference. Defaults to user_reference. For multiple users as example, repeat the target.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -133,8 +130,19 @@ type TargetObservation struct {
 type TargetParameters struct {
 
 	// A target ID
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-pagerduty/apis/schedule/v1alpha1.Schedule
+	// +crossplane:generate:reference:refFieldName=ScheduleRefs
+	// +crossplane:generate:reference:selectorFieldName=ScheduleSelector
 	// +kubebuilder:validation:Optional
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Schedule in schedule to populate id.
+	// +kubebuilder:validation:Optional
+	ScheduleRefs *v1.Reference `json:"scheduleRefs,omitempty" tf:"-"`
+
+	// Selector for a Schedule in schedule to populate id.
+	// +kubebuilder:validation:Optional
+	ScheduleSelector *v1.Selector `json:"scheduleSelector,omitempty" tf:"-"`
 
 	// Can be user_reference or schedule_reference. Defaults to user_reference. For multiple users as example, repeat the target.
 	// +kubebuilder:validation:Optional
